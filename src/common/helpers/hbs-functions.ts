@@ -4,9 +4,7 @@ export const helpers = {
     return locale.toLocaleString('pt-BR');
   },
   inc: (value: string) => parseInt(value) + 1,
-  json: (value: any) => {
-    return JSON.stringify(value);
-  },
+  json: (context) => JSON.stringify(context, null, 2),
   // 'error-message': (errors: any[], key: string) =>
   //   errors?.find((i) => i.property == key)?.message,
   // 'error-messages': (errors: any[], key: string) =>
@@ -22,5 +20,6 @@ export const helpers = {
 
     return id == compareId ? 'selected' : '';
   },
+  isString: (value) => typeof value === 'string',
   year: () => new Date().getFullYear(),
 };

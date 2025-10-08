@@ -1,8 +1,10 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import * as flash from 'express-flash';
 import * as exphbs from 'express-handlebars';
 import * as session from 'express-session';
+import * as methodOverride from 'method-override';
 import { join } from 'path';
 import { AppModule } from './app.module';
 import { NotFoundExceptionFilter } from './common/filters/not-found-exception.filter';
@@ -24,6 +26,8 @@ async function bootstrap() {
   app.engine('.hbs', hbs.engine);
   app.setViewEngine('hbs');
 
+  app.use(methodOverride('_method'));
+  app.use(flash());
   app.use(
     session({
       secret: 'my-secret',

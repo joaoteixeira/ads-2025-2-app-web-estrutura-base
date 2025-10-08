@@ -1,4 +1,5 @@
 import { DataSource } from 'typeorm';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 export const databaseProviders = [
   {
@@ -14,6 +15,7 @@ export const databaseProviders = [
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         synchronize: false,
         logging: false,
+        namingStrategy: new SnakeNamingStrategy(),
       });
 
       return dataSource.initialize();
