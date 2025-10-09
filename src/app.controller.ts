@@ -16,4 +16,10 @@ export class AppController {
   layout() {
     return { titulo: this.appService.getTitulo() };
   }
+
+  @Get('sobre-mim')
+  @Render('sobre')
+  sobre() {
+    return {};
+  }
 }

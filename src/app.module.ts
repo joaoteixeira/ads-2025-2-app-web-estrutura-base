@@ -2,9 +2,10 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { FlashMiddleware } from './common/middlewares/flash.middleware';
+import { ChamadoModule } from './modules/chamado/chamado.modules';
 
 @Module({
-  imports: [],
+  imports: [ChamadoModule],
   controllers: [AppController],
   providers: [AppService],
 })
