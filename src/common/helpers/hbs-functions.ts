@@ -22,4 +22,11 @@ export const helpers = {
   },
   isString: (value) => typeof value === 'string',
   year: () => new Date().getFullYear(),
+  getError: (errors: any[], key: string) => {
+    const errorObj = errors?.find((i) => i.property == key);
+    return errorObj ? errorObj.message : null;
+  },
+  getValue: (old: string, defaultValue: string) => {
+    return old || defaultValue;
+  },
 };
