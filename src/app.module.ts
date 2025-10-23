@@ -4,9 +4,10 @@ import { AppService } from './app.service';
 import { FlashMiddleware } from './common/middlewares/flash.middleware';
 import { OldMiddleware } from './common/middlewares/old.middleware';
 import { ChamadoModule } from './modules/chamado/chamado.modules';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
-  imports: [ChamadoModule],
+  imports: [DatabaseModule, ChamadoModule],
   controllers: [AppController],
   providers: [AppService],
 })

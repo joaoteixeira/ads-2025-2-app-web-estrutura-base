@@ -11,9 +11,9 @@ export const databaseProviders = [
         port: 3360,
         username: 'root',
         password: 'root',
-        database: 'gestao_facil_bd',
+        database: 'ads_web_bd',
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-        synchronize: false,
+        synchronize: true,
         logging: false,
         namingStrategy: new SnakeNamingStrategy(),
       });

@@ -19,6 +19,9 @@ export class OldMiddleware implements NestMiddleware {
     // Expose to templates
     res.locals.old = req.getOld();
 
+    // Remove old session
+    req.session.old = null;
+
     next();
   }
 }

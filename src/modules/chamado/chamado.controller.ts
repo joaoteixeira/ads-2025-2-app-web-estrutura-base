@@ -1,13 +1,20 @@
 import { Body, Controller, Get, Post, Render, Req, Res } from "@nestjs/common";
 import { Request, Response } from "express";
+import { ChamadoService } from "./chamado.service";
+import { ChamadoDto } from "./chamado.dto";
+import { validate } from "src/common/validator/generic.validator";
 
 @Controller('/chamado')
 export class ChamadoController {
 
+    constructor(private readonly chamadoService: ChamadoService) {}
+
     @Get()
     @Render('chamado/listagem')
-    consulta() {
-        return {};
+    async consulta() {
+        const chamados = await this.chamadoService.getAll();
+
+        return { listaChamados: chamados };
     }
 
     @Get('/novo')
@@ -17,13 +24,30 @@ export class ChamadoController {
     }
 
     @Post('/novo/salvar')
-    formularioCadastroSalvar(@Body() dadosForm: any, @Req() req: Request, @Res() res: Response) {
+    async formularioCadastroSalvar(@Body() dadosForm: any, @Req() req: Request, @Res() res: Response) {
 
-        console.log(dadosForm);
+        //import { validate } from "src/common/validator/generic.validator";
 
-        req.addFlash('success', 'Chamado adicionado com sucesso!');
+        const resultado = await validate(ChamadoDto, dadosForm);
 
-        return res.redirect('/chamado');
+        if(resultado.isError) {
+
+            req.addFlash('error', resultado.getErrors);
+            req.setOld(dadosForm);
+
+            return res.redirect('/chamado/novo');  
+        } else {
+
+            await this.chamadoService.create(dadosForm);
+
+            req.addFlash('success', 'Chamado adicionado com sucesso!');
+
+            return res.redirect('/chamado');
+        }
+
+        
+
+        
     }
     
 }
