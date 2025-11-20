@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Render, Req, Res } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Render, Req, Res } from "@nestjs/common";
 import { Request, Response } from "express";
 import { ChamadoService } from "./chamado.service";
 import { ChamadoDto } from "./chamado.dto";
@@ -7,7 +7,7 @@ import { validate } from "src/common/validator/generic.validator";
 @Controller('/chamado')
 export class ChamadoController {
 
-    constructor(private readonly chamadoService: ChamadoService) {}
+    constructor(private readonly chamadoService: ChamadoService) { }
 
     @Get()
     @Render('chamado/listagem')
@@ -30,12 +30,12 @@ export class ChamadoController {
 
         const resultado = await validate(ChamadoDto, dadosForm);
 
-        if(resultado.isError) {
+        if (resultado.isError) {
 
             req.addFlash('error', resultado.getErrors);
             req.setOld(dadosForm);
 
-            return res.redirect('/chamado/novo');  
+            return res.redirect('/chamado/novo');
         } else {
 
             await this.chamadoService.create(dadosForm);
@@ -44,10 +44,83 @@ export class ChamadoController {
 
             return res.redirect('/chamado');
         }
-
-        
-
-        
     }
-    
+
+    /**
+     * Get por Id para Exclusao
+     */
+    @Get('/:id/exclusao')
+    @Render('chamado/formulario-exclusao')
+    async formularioExclusao(@Param('id') id: number, @Req() req: Request, @Res() res: Response) {
+        const chamado = await this.chamadoService.findOne(id);
+
+        if (chamado == null) {
+
+            req.addFlash('error', 'O chamado solicitado não foi encontrado!');
+
+            return res.redirect('/chamado');
+        }
+
+        return { chamado };
+    }
+
+    @Delete('/:id/exclusao')
+    async excluir(@Param('id') id: number, @Req() req: Request, @Res() res: Response) {
+        const chamado = await this.chamadoService.findOne(id);
+
+        if (chamado == null) {
+            req.addFlash('error', 'O chamado solicitado não foi encontrado!');
+        } else {
+            req.addFlash('success', `Chamado: ${chamado.titulo} excluído com sucesso!`);
+            await this.chamadoService.remove(id);
+        }
+
+        return res.redirect('/chamado');
+    }
+
+
+    /**
+     * Get por Id - Atualização
+     */
+    @Get('/:id/atualizacao')
+    @Render('chamado/formulario-atualizacao')
+    async formularioAtualizacao(@Param('id') id: number, @Req() req: Request, @Res() res: Response) {
+        const chamado = await this.chamadoService.findOne(id);
+
+        if (chamado == null) {
+
+            req.addFlash('error', 'O chamado solicitado não foi encontrado!');
+
+            return res.redirect('/chamado');
+        }
+
+        return { chamado };
+    }
+
+
+    @Put('/:id/atualizacao-salvar')
+    async atualizacaoSalvar(@Param('id') id: number, @Body() dados: any, @Req() req: Request, @Res() res: Response) {
+        const chamado = await this.chamadoService.findOne(id);
+
+        if (chamado == null) {
+            req.addFlash('error', 'O chamado solicitado não foi encontrado!');
+            return res.redirect('/chamado');
+        } 
+
+        const resultado = await validate(ChamadoDto, dados);
+
+        if (resultado.isError) {
+            req.addFlash('error', resultado.getErrors);
+            req.setOld(dados);
+
+            return res.redirect(`/chamado/${id}/atualizacao`);
+        } else {
+
+            await this.chamadoService.update(id, dados);
+
+            req.addFlash('success', 'Chamado atualizado com sucesso!');
+
+            return res.redirect('/chamado');
+        }       
+    }
 }

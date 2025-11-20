@@ -10,6 +10,14 @@
     </div>
 {{/if}}
 
+{{#if error}}
+    <div class="alert alert-danger">
+        {{#each error}}
+            {{this}}
+        {{/each}}
+    </div>
+{{/if}}
+
 <table class="table">
     <thead>
         <tr>
@@ -17,6 +25,9 @@
             <th>Título</th>
             <th>Prioridade</th>
             <th>Situação</th>
+            <th>
+                Ações
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -27,6 +38,10 @@
             <td>{{this.prioridade}}</td>
             <td>
                 {{this.situacao}}
+            </td>
+            <td>
+                <a href="/chamado/{{this.id}}/atualizacao" class="btn btn-sm btn-primary">Atualização</a>
+                <a href="/chamado/{{this.id}}/exclusao" class="btn btn-sm btn-danger">Exclusão</a>
             </td>
         </tr>
         {{/each}}
