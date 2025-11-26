@@ -1,17 +1,26 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+    BaseEntity,
+    Column,
+    CreateDateColumn,
+    Entity,
+    ManyToOne,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
+} from 'typeorm';
+import { Prioridade } from '../prioridade/prioridade.entity';
 
-export enum Prioridade {
-    BAIXA = 'Baixa',
-    MEDIA = 'Média',
-    ALTA = 'Alta',
-    CRITICA = 'Crítica'
-}
+// export enum Prioridade {
+//     BAIXA = 'Baixa',
+//     MEDIA = 'Média',
+//     ALTA = 'Alta',
+//     CRITICA = 'Crítica',
+// }
 
 export enum Situacao {
     Aberto = 'Aberto',
     EmAndamento = 'Em andamento',
     Testando = 'Testando',
-    Finalizado = 'Finalizado'
+    Finalizado = 'Finalizado',
 }
 
 @Entity('chamados')
@@ -28,12 +37,15 @@ export class Chamado extends BaseEntity {
     @Column()
     situacao: string;
 
-    @Column({ type: 'enum', enum: Prioridade, default: Prioridade.MEDIA })
-    prioridade: Prioridade;
+    // @Column({ type: 'enum', enum: Prioridade, default: Prioridade.MEDIA })
+    // prioridade: Prioridade;
 
     @CreateDateColumn()
     criadoEm: Date;
 
     @UpdateDateColumn({ nullable: true })
     atualizadoEm: Date;
+
+    @ManyToOne(() => Prioridade)
+    prioridade: Prioridade;
 }

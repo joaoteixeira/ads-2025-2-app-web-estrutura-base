@@ -18,10 +18,9 @@
         <div class="col-4">
             <label for="">Prioridade</label>
             <select name="prioridade" class="form-select">
-                <option {{selected-option 'Baixa' chamado.prioridade old.prioridade}} value="Baixa">Baixa</option>
-                <option {{selected-option 'Media' chamado.prioridade old.prioridade}} value="Media">Média</option>
-                <option {{selected-option 'Alta' chamado.prioridade old.prioridade}} value="Alta">Alta</option>
-                <option {{selected-option 'Crítica' chamado.prioridade old.prioridade}} value="Crítica">Crítica</option>
+                {{#each prioridades}}
+                  <option {{selected-option this.id ../chamado.prioridade.id ../old.prioridade}} value="{{this.id}}">{{this.nome}}</option>
+                {{/each}}
             </select>
         </div>
     </div>

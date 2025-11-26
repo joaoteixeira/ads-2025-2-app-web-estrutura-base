@@ -1,10 +1,11 @@
-import { Module } from "@nestjs/common";
-import { ChamadoController } from "./chamado.controller";
-import { ChamadoService } from "./chamado.service";
+import { Module } from '@nestjs/common';
+import { PrioridadeService } from '../prioridade/prioridade.service';
+import { ChamadoController } from './chamado.controller';
+import { ChamadoService } from './chamado.service';
 
 @Module({
     imports: [],
     controllers: [ChamadoController],
-    providers: [ChamadoService],
+    providers: [ChamadoService, PrioridadeService],
 })
-export class ChamadoModule {}
+export class ChamadoModule { }
