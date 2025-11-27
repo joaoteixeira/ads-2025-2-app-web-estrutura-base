@@ -19,7 +19,7 @@
             <label for="">Prioridade</label>
             <select name="prioridade" class="form-select">
                 {{#each prioridades }}
-                  <option {{selected-option this.id '' old.prioridade}} value="{{this.id}}">{{this.nome}}</option>
+                  <option {{selected-option this.id '' ../old.prioridade}} value="{{this.id}}">{{this.nome}}</option>
                 {{/each}}
             </select>
         </div>

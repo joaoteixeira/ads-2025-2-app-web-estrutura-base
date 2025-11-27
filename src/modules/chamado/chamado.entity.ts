@@ -3,18 +3,12 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    JoinColumn,
     ManyToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
 import { Prioridade } from '../prioridade/prioridade.entity';
-
-// export enum Prioridade {
-//     BAIXA = 'Baixa',
-//     MEDIA = 'Média',
-//     ALTA = 'Alta',
-//     CRITICA = 'Crítica',
-// }
 
 export enum Situacao {
     Aberto = 'Aberto',
@@ -37,9 +31,6 @@ export class Chamado extends BaseEntity {
     @Column()
     situacao: string;
 
-    // @Column({ type: 'enum', enum: Prioridade, default: Prioridade.MEDIA })
-    // prioridade: Prioridade;
-
     @CreateDateColumn()
     criadoEm: Date;
 
@@ -47,5 +38,9 @@ export class Chamado extends BaseEntity {
     atualizadoEm: Date;
 
     @ManyToOne(() => Prioridade)
+    // @JoinColumn({
+    //     name: "id_pri_fk",
+    //     referencedColumnName: "id"
+    // })
     prioridade: Prioridade;
 }
